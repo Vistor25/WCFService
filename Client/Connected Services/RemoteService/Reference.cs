@@ -15,41 +15,29 @@ namespace Client.RemoteService {
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="RemoteService.ICalculator")]
     public interface ICalculator {
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICalculator/GetData", ReplyAction="http://tempuri.org/ICalculator/GetDataResponse")]
-        string GetData(int value);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICalculator/GetData", ReplyAction="http://tempuri.org/ICalculator/GetDataResponse")]
-        System.Threading.Tasks.Task<string> GetDataAsync(int value);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICalculator/GetDataUsingDataContract", ReplyAction="http://tempuri.org/ICalculator/GetDataUsingDataContractResponse")]
-        CalculatorService.CompositeType GetDataUsingDataContract(CalculatorService.CompositeType composite);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICalculator/GetDataUsingDataContract", ReplyAction="http://tempuri.org/ICalculator/GetDataUsingDataContractResponse")]
-        System.Threading.Tasks.Task<CalculatorService.CompositeType> GetDataUsingDataContractAsync(CalculatorService.CompositeType composite);
-        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICalculator/Addition", ReplyAction="http://tempuri.org/ICalculator/AdditionResponse")]
-        [System.ServiceModel.FaultContractAttribute(typeof(CalculatorService.OverflowFault), Action="http://tempuri.org/ICalculator/AdditionOverflowFaultFault", Name="OverflowFault", Namespace="http://schemas.datacontract.org/2004/07/CalculatorService")]
+        [System.ServiceModel.FaultContractAttribute(typeof(CalculatorService.CustomFaultExeption), Action="http://tempuri.org/ICalculator/AdditionCustomFaultExeptionFault", Name="CustomFaultExeption", Namespace="http://schemas.datacontract.org/2004/07/CalculatorService")]
         int Addition(int firstArgument, int secondArgument);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICalculator/Addition", ReplyAction="http://tempuri.org/ICalculator/AdditionResponse")]
         System.Threading.Tasks.Task<int> AdditionAsync(int firstArgument, int secondArgument);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICalculator/Substraction", ReplyAction="http://tempuri.org/ICalculator/SubstractionResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(CalculatorService.CustomFaultExeption), Action="http://tempuri.org/ICalculator/SubstractionCustomFaultExeptionFault", Name="CustomFaultExeption", Namespace="http://schemas.datacontract.org/2004/07/CalculatorService")]
         int Substraction(int firstArgument, int secondArgument);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICalculator/Substraction", ReplyAction="http://tempuri.org/ICalculator/SubstractionResponse")]
         System.Threading.Tasks.Task<int> SubstractionAsync(int firstArgument, int secondArgument);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICalculator/Multiplication", ReplyAction="http://tempuri.org/ICalculator/MultiplicationResponse")]
-        [System.ServiceModel.FaultContractAttribute(typeof(CalculatorService.OverflowFault), Action="http://tempuri.org/ICalculator/MultiplicationOverflowFaultFault", Name="OverflowFault", Namespace="http://schemas.datacontract.org/2004/07/CalculatorService")]
+        [System.ServiceModel.FaultContractAttribute(typeof(CalculatorService.CustomFaultExeption), Action="http://tempuri.org/ICalculator/MultiplicationCustomFaultExeptionFault", Name="CustomFaultExeption", Namespace="http://schemas.datacontract.org/2004/07/CalculatorService")]
         int Multiplication(int firstArgument, int secondArgument);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICalculator/Multiplication", ReplyAction="http://tempuri.org/ICalculator/MultiplicationResponse")]
         System.Threading.Tasks.Task<int> MultiplicationAsync(int firstArgument, int secondArgument);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICalculator/Division", ReplyAction="http://tempuri.org/ICalculator/DivisionResponse")]
-        [System.ServiceModel.FaultContractAttribute(typeof(CalculatorService.DivideByZeroFault), Action="http://tempuri.org/ICalculator/DivisionDivideByZeroFaultFault", Name="DivideByZeroFault", Namespace="http://schemas.datacontract.org/2004/07/CalculatorService")]
-        [System.ServiceModel.FaultContractAttribute(typeof(CalculatorService.ValidationFault), Action="http://tempuri.org/ICalculator/DivisionValidationFaultFault", Name="ValidationFault", Namespace="http://schemas.datacontract.org/2004/07/CalculatorService")]
+        [System.ServiceModel.FaultContractAttribute(typeof(CalculatorService.CustomFaultExeption), Action="http://tempuri.org/ICalculator/DivisionCustomFaultExeptionFault", Name="CustomFaultExeption", Namespace="http://schemas.datacontract.org/2004/07/CalculatorService")]
         int Division(int firstArgument, int secondArgument);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICalculator/Division", ReplyAction="http://tempuri.org/ICalculator/DivisionResponse")]
@@ -81,22 +69,6 @@ namespace Client.RemoteService {
         
         public CalculatorClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
                 base(binding, remoteAddress) {
-        }
-        
-        public string GetData(int value) {
-            return base.Channel.GetData(value);
-        }
-        
-        public System.Threading.Tasks.Task<string> GetDataAsync(int value) {
-            return base.Channel.GetDataAsync(value);
-        }
-        
-        public CalculatorService.CompositeType GetDataUsingDataContract(CalculatorService.CompositeType composite) {
-            return base.Channel.GetDataUsingDataContract(composite);
-        }
-        
-        public System.Threading.Tasks.Task<CalculatorService.CompositeType> GetDataUsingDataContractAsync(CalculatorService.CompositeType composite) {
-            return base.Channel.GetDataUsingDataContractAsync(composite);
         }
         
         public int Addition(int firstArgument, int secondArgument) {

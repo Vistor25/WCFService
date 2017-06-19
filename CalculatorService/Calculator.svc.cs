@@ -16,20 +16,21 @@ namespace CalculatorService
     {
         public int Addition(int firstArgument, int secondArgument)
         {
-            int a;
+            int result;
             try
             {
-                a = checked(firstArgument + secondArgument);
+                result = checked(firstArgument + secondArgument);
             }
             catch (OverflowException e)
             {
-                OverflowFault fault = new OverflowFault();
+                CustomFaultExeption fault = new CustomFaultExeption();
+                fault.TypeOfExeption = "OverflowException";
                 fault.Result = false;
                 fault.Description = "Overflow detected!";
                 fault.Message = e.Message;
-                throw new FaultException<OverflowFault>(fault);
+                throw new FaultException<CustomFaultExeption>(fault);
             }
-            return a;
+            return result;
         }
 
         public int Division(int firstArgument, int secondArgument)
@@ -38,97 +39,65 @@ namespace CalculatorService
             {
                 if (firstArgument == 0 && secondArgument == 0)
                 {
-                    ValidationFault fault = new ValidationFault();
+                    CustomFaultExeption fault = new CustomFaultExeption();
+                    fault.TypeOfExeption = "ValidationFault";
                     fault.Description = "Invalid arguments";
                     fault.Message = "Both arguments can't be zero! ";
                     fault.Result = false;
-                    throw  new FaultException<ValidationFault>(fault);
+                    throw  new FaultException<CustomFaultExeption>(fault);
                 }
                 return firstArgument / secondArgument;
             }
             catch (DivideByZeroException exception)
             {
-                DivideByZeroFault fault = new DivideByZeroFault();
+                CustomFaultExeption fault = new CustomFaultExeption();
+                fault.TypeOfExeption = "DivideByZeroException";
                 fault.Result = false;
                 fault.Description = "Divizion by zero";
                 fault.Message = exception.Message;
 
-                throw new FaultException<DivideByZeroFault>(fault);
+                throw new FaultException<CustomFaultExeption>(fault);
             }
         }
 
-        public string GetData(int value)
+       public int Multiplication(int firstArgument, int secondArgument)
         {
-            return string.Format("You entered: {0}", value);
-        }
-
-        public CompositeType GetDataUsingDataContract(CompositeType composite)
-        {
-            if (composite == null)
-            {
-                throw new ArgumentNullException("composite");
-            }
-            if (composite.BoolValue)
-            {
-                composite.StringValue += "Suffix";
-            }
-            return composite;
-        }
-
-        public int Multiplication(int firstArgument, int secondArgument)
-        {
-            int a;
+            int result;
             try
             {
-                a = checked(firstArgument * secondArgument);
+                result = checked(firstArgument * secondArgument);
             }
             catch (OverflowException e)
             {
-                OverflowFault fault = new OverflowFault();
+                CustomFaultExeption fault = new CustomFaultExeption();
+                fault.TypeOfExeption = "OverflowException";
                 fault.Result = false;
                 fault.Description = "Overflow detected!";
                 fault.Message = e.Message;
-                throw new FaultException<OverflowFault>(fault);
+                throw new FaultException<CustomFaultExeption>(fault);
             }
-            return a;
+            return result;
         }
 
         public int Substraction(int firstArgument, int secondArgument)
         {
-            return firstArgument - secondArgument;
+            int result;
+            try
+            {
+                result = checked(firstArgument - secondArgument);
+            }
+            catch (OverflowException e)
+            {
+                CustomFaultExeption fault = new CustomFaultExeption();
+                fault.TypeOfExeption = "OverflowException";
+                fault.Result = false;
+                fault.Description = "Overflow detected!";
+                fault.Message = e.Message;
+                throw new FaultException<CustomFaultExeption>(fault);
+            }
+            return result;
         }
     }
-    [DataContract]
-    public class DivideByZeroFault
-    {
-        [DataMember]
-        public bool Result { get; set; }
-        [DataMember]
-        public string Message { get; set; }
-        [DataMember]
-        public string Description { get; set; }
-    }
-
-    [DataContract]
-    public class ValidationFault
-    {
-        [DataMember]
-        public bool Result { get; set; }
-        [DataMember]
-        public string Message { get; set; }
-        [DataMember]
-        public string Description { get; set; }
-    }
-
-    [DataContract]
-    public class OverflowFault
-    {
-        [DataMember]
-        public bool Result { get; set; }
-        [DataMember]
-        public string Message { get; set; }
-        [DataMember]
-        public string Description { get; set; }
-    }
+    
 
 }

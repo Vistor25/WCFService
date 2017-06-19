@@ -12,92 +12,74 @@ namespace Client
     {
         static void Main(string[] args)
         {
-
+            CalculatorClient client = new CalculatorClient();
             int n = 1;
             while (n == 1)
             {
-                CalculatorClient client = new CalculatorClient();
+
 
                 try
                 {
                     Console.WriteLine("Type first argument:");
-                    int a = int.Parse(Console.ReadLine());
+                    int inputFirstArgument = int.Parse(Console.ReadLine());
                     Console.WriteLine("Type the operation type(+, -, *, /)");
-                    string b = Console.ReadLine();
+                    string typeOfOperation = Console.ReadLine();
                     Console.WriteLine("Type second argument:");
-                    int c = int.Parse(Console.ReadLine());
+                    int inputSecondArgument = int.Parse(Console.ReadLine());
 
-                    switch (b)
+                    switch (typeOfOperation)
                     {
                         case "+":
 
-                            Console.WriteLine("Answer: {0}", client.Addition(a, c));
+                            Console.WriteLine("Answer: {0}", client.Addition(inputFirstArgument, inputSecondArgument));
                             break;
                         case "-":
 
-                            Console.WriteLine("Answer: {0}", client.Substraction(a, c));
+                            Console.WriteLine("Answer: {0}",
+                                client.Substraction(inputFirstArgument, inputSecondArgument));
                             break;
                         case "*":
 
-                            Console.WriteLine("Answer: {0}", client.Multiplication(a, c));
+                            Console.WriteLine("Answer: {0}",
+                                client.Multiplication(inputFirstArgument, inputSecondArgument));
                             break;
                         case "/":
 
-                            Console.WriteLine("Answer: {0}", client.Division(a, c));
+                            Console.WriteLine("Answer: {0}", client.Division(inputFirstArgument, inputSecondArgument));
                             break;
 
                     }
                 }
-                catch (ArgumentNullException e)
-                {
-                    Console.WriteLine("Invalid argument!");
-                    client.Close();
-
-                }
-                catch (OverflowException e)
-                {
-                    Console.WriteLine("Invalid argument!");
-                    client.Close();
-
-                }
-                catch (FormatException e)
-                {
-                    Console.WriteLine("Invalid argument!");
-                    client.Close();
-
-                }
+                
                 catch (TimeoutException e)
                 {
                     Console.WriteLine("The service operation timed out. " + e.Message);
-                    client.Close();
+
                 }
-                catch (FaultException<CalculatorService.OverflowFault> e)
+             
+                catch (FaultException<CalculatorService.CustomFaultExeption> e)
                 {
                     Console.WriteLine("Message: {0}, Description: {1}", e.Detail.Message, e.Detail.Description);
-                    client.Close();
-                }
-                catch (FaultException<CalculatorService.ValidationFault> e)
-                {
-                    Console.WriteLine("Message: {0}, Description: {1}", e.Detail.Message, e.Detail.Description);
-                    client.Close();
-                }
-                catch (FaultException<CalculatorService.DivideByZeroFault> e)
-                {
-                    Console.WriteLine("Message: {0}, Description: {1}", e.Detail.Message, e.Detail.Description);
-                    client.Close();
+
 
                 }
                 catch (FaultException e)
                 {
                     Console.WriteLine(e.Message);
-                    client.Close();
+
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
                 }
 
                 Console.WriteLine("Continue? Y or N ");
                 string d = Console.ReadLine();
                 if (d == "N")
+                {
                     n = 0;
-                client.Close();
+                    client.Close();
+                }
             }
         }
 
